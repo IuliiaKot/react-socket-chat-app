@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-let socket = io(`http://localhost:3000`)
+// let socket = io(`http://localhost:3000`)
 
 class App extends React.Component {
   constructor(){
@@ -9,12 +9,14 @@ class App extends React.Component {
     this.state = {
       messages: []
     }
+    // this.socket = io(`http://localhost:3000`)
   }
 
   componentDidMount(){
-      // this.socket = io();
+      this.socket = io();
 
-      socket.on('message', message => {
+      this.socket.on('message', message => {
+        console.log(message)
         this.setState({
           messages: [message, ...this.state.messages]
         })
@@ -23,8 +25,8 @@ class App extends React.Component {
   handleSubmit(e){
     if (e.which == 13) {
       let message ={from: "Julia", text: e.target.value}
-      this.setState({messages: [message,...this.state.messages]});
-      socket.emit('createMessage', message)
+      // this.setState({messages: [message,...this.state.messages]});
+      this.socket.emit('createMessage', message)
     }
   }
   render(){
