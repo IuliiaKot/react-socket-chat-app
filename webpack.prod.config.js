@@ -4,14 +4,9 @@ const webpack = require('webpack')
 module.exports = {
   devtool: 'source-map',
 
-  entry: [
-    './src/index'
-  ],
-
+  entry: __dirname + "/src",
   output: {
-    path: path.join(__dirname, 'public'),
-    filename: 'bundle.js',
-    publicPath: '/public/'
+    path: '/'
   },
 
   plugins: [
@@ -29,18 +24,20 @@ module.exports = {
     })
   ],
 
-  module: {
+module: {
     loaders: [
-      { test: /\.js?$/,
+      {
+        test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/ },
-      { test: /\.scss?$/,
-        loader: 'style!css!sass',
-        include: path.join(__dirname, 'src', 'styles') },
-      { test: /\.png$/,
-        loader: 'file' },
-      { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        loader: 'file'}
+        
+        query: {
+          presets: ['es2015', 'react'],
+          plugins: ['transform-class-properties']
+        }},
+        { 
+          test: /\.css$/, loader: "style-loader!css-loader" 
+        }
+      
     ]
   }
 }
