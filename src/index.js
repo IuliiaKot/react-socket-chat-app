@@ -26,7 +26,7 @@ class App extends React.Component {
       this.socket.on('message', message => {
         console.log(message)
         this.setState({
-          messages: [message, ...this.state.messages]
+          messages: [...this.state.messages, message]
         })
       })
   }
@@ -48,7 +48,7 @@ class App extends React.Component {
         <Row>
           <Col md="3"><Rooms/></Col>
           <Col md="9">
-           <Form onSubmit={this.handleSubmit.bind(this)}> 
+           <Form id="form" onSubmit={this.handleSubmit.bind(this)}> 
             <Input size="lg" type="text" name="message" placeholder="with a placeholder" 
               value={this.state.userMessage}
               onChange={this.handleChange}/>

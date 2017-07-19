@@ -20,12 +20,14 @@ io.on('connection', (socket) => {
 
   socket.emit('message', {
     from: 'Admin',
-    text: "Welcome to chat"
+    text: "Welcome to chat",
+    time: new Date().getTime()
   })
 
   socket.broadcast.emit('message',{
     from: "Admin",
-    text: "New user was joined"
+    text: "New user was joined",
+    time: new Date().getTime()
   })
 
   socket.on('createMessage', (message) => {
@@ -33,7 +35,7 @@ io.on('connection', (socket) => {
     io.emit('message', {
       from: message.from,
       text: message.text,
-      created_at: new Date().getTime()
+      time: new Date().getTime()
     })
     // socket.broadcast.emit('message', {
     //    from: message.from,

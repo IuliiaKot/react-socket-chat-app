@@ -4,15 +4,19 @@ import Message from './Message';
 
 const MessagesList = (props) => {
   return (
-    <div>
-      <ul>
-        {
-          props.messages.map( (message,idx) => {
-            return <Message message={message} key={idx}/>
-          })
-        }
-      </ul>
-    </div>
+    <aside className="right">
+      <div className="chat">
+        <div className="chat-history panel-body body-panel">
+          <ul className="chat-ul">
+            {
+              props.messages.map( (message,idx) => {
+                return <Message message={message} key={idx}/>
+              })
+            }
+          </ul>
+        </div>  
+      </div>
+    </aside>
   )
 }
 
