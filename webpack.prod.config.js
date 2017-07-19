@@ -35,7 +35,11 @@ module: {
           plugins: ['transform-class-properties']
         }},
         { 
-          test: /\.css$/, loader: "style-loader!css-loader" 
+          test: /\.css$/, loader: "style-loader!css-loader",
+          loaders: [
+                    require.resolve('style-loader'),
+                    require.resolve('css-loader')
+                ] 
         }
       
     ]
