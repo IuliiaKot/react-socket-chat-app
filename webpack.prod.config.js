@@ -4,7 +4,7 @@ const webpack = require('webpack')
 module.exports = {
   devtool: 'source-map',
 
-  entry: __dirname + "/src",
+  entry: [__dirname + "/src",'bootstrap-loader', '/src' ]
   output: {
     path: '/'
   },
@@ -45,3 +45,4 @@ module: {
     ]
   }
 }
+
