@@ -4,7 +4,7 @@ const webpack = require('webpack')
 module.exports = {
   devtool: 'source-map',
 
-  entry: [__dirname + "/src",'bootstrap-loader', '/src' ]
+  entry: [__dirname + "/src",'bootstrap-loader', '/src' ],
   output: {
     path: '/'
   },
@@ -36,10 +36,7 @@ module: {
         }},
         { 
           test: /\.css$/, loader: "style-loader!css-loader",
-          loaders: [
-                    require.resolve('style-loader'),
-                    require.resolve('css-loader')
-                ] 
+
         }
       
     ]
