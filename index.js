@@ -2,9 +2,9 @@ const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
 const socketIO = require('socket.io');
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware')
-const webpackConfig = require('./webpack.config.js');
+// const webpack = require('webpack');
+// const webpackDevMiddleware = require('webpack-dev-middleware')
+// const webpackConfig = require('./webpack.config.js');
 
 var port = process.env.PORT || 5000;
 
@@ -13,8 +13,23 @@ const server = http.createServer(app) ;
 const io = socketIO(server);
 
 app.use(express.static(__dirname + '/public'))
-app.use(webpackDevMiddleware(webpack(webpackConfig)))
+// app.use(webpackDevMiddleware(webpack(webpackConfig)))
 app.use(bodyParser.urlencoded({extended: false}))
+
+
+if (process.env.NODE_ENV !== 'production') {
+  const webpack = require('webpack')
+  const webpackDevMiddleware = require('webpack-dev-middleware')
+  const webpackHotMiddleware = require('webpack-hot-middleware')
+  const config = require('./webpack.dev.config.js')
+  const compiler = webpack(config)
+
+  app.use(webpackHotMiddleware(compiler))
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }))
+}
 
 
 io.on('connection', (socket) => {
