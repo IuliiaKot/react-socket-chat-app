@@ -2,7 +2,6 @@ import React from 'react';
 
 
 const Message = (props) => {
-  // debugger
   let classUser = props.message.from === 'Admin' ? 'admin' : 'user'
   return(
     <li className={classUser}>
