@@ -4,8 +4,8 @@ import io from 'socket.io-client';
 import MessagesList from './components/MessagesList';
 import MessageForm from './components/MessageForm';
 import Rooms from './components/Rooms';
-import 'bootstrap/dist/css/bootstrap.css';
-import './Style.css';
+// import 'bootstrap/dist/css/bootstrap.css';
+// import './Style.css';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Input, FormText , Form} from 'reactstrap';
 
