@@ -7,15 +7,17 @@ import Rooms from './components/Rooms';
 import 'bootstrap/dist/css/bootstrap.css';
 import './Style.css';
 import { Container, Row, Col } from 'reactstrap';
-import { Button, Input, FormText } from 'reactstrap';
+import { Button, Input, FormText , Form} from 'reactstrap';
 
 class App extends React.Component {
   constructor(){
     super()
     this.state = {
-      messages: []
+      messages: [],
+      userMessage: ''
     }
     // this.socket = io(`http://localhost:3000`)
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount(){
@@ -28,21 +30,29 @@ class App extends React.Component {
         })
       })
   }
-  handleSubmit(e){
-    if (e.which == 13) {
-      let message ={from: "Julia", text: e.target.value}
-      // this.setState({messages: [message,...this.state.messages]});
-      this.socket.emit('createMessage', message)
-    }
+
+  handleChange(e){
+    this.setState({userMessage: e.target.value})
   }
+
+  handleSubmit(e){
+    e.preventDefault();
+    let message ={from: "Julia", text: this.state.userMessage}
+    this.socket.emit('createMessage', message)
+    this.setState({userMessage: ''})
+  }
+
   render(){
     return(
       <Container>
         <Row>
           <Col md="3"><Rooms/></Col>
           <Col md="9">
-            <Input type="text" name="email" placeholder="with a placeholder" 
-                onKeyPress={this.handleSubmit.bind(this)}/>
+           <Form onSubmit={this.handleSubmit.bind(this)}> 
+            <Input size="lg" type="text" name="message" placeholder="with a placeholder" 
+              value={this.state.userMessage}
+              onChange={this.handleChange}/>
+           </Form>     
             <MessagesList messages={this.state.messages}/>
           </Col>
         </Row>
