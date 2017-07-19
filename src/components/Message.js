@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 
-class Message extends Component {
-  render(){
-    return (null)
-  }
+const Message = (props) => {
+  return(
+    <li>{props.message.text}</li>
+  )
 }
 
 export default Message;

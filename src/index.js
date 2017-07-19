@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-// let socket = io(`http://localhost:3000`)
+import MessagesList from './components/MessagesList';
+import MessageForm from './components/MessageForm';
+import Rooms from './components/Rooms';
+import 'bootstrap/dist/css/bootstrap.css';
+import './Style.css';
+import { Container, Row, Col } from 'reactstrap';
+import { Button, Input, FormText } from 'reactstrap';
 
 class App extends React.Component {
   constructor(){
@@ -31,16 +37,16 @@ class App extends React.Component {
   }
   render(){
     return(
-      <div>
-
-          <input type="text" onKeyPress={this.handleSubmit.bind(this)}/>
-          <button>Submit</button>
-        {
-          this.state.messages.map(message => {
-            return <ul>{message.text}</ul>
-          })
-        }
-       </div>
+      <Container>
+        <Row>
+          <Col md="3"><Rooms/></Col>
+          <Col md="9">
+            <Input type="text" name="email" placeholder="with a placeholder" 
+                onKeyPress={this.handleSubmit.bind(this)}/>
+            <MessagesList messages={this.state.messages}/>
+          </Col>
+        </Row>
+      </Container>
 
     )
   }
