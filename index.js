@@ -6,6 +6,8 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackConfig = require('./webpack.config.js');
 
+var port = process.env.PORT || 5000;
+
 const app = express();
 const server = http.createServer(app) ;
 const io = socketIO(server);
@@ -48,4 +50,4 @@ io.on('connection', (socket) => {
 io.on('disconnect', ()=>{
   console.log('user was disconnected');
 })
-server.listen(3000)
+server.listen(port)
