@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './Style.css';
 import { Container, Row, Col } from 'reactstrap';
 import { Button, Input, FormText , Form} from 'reactstrap';
+import LoginPage from './components/LoginPage';
 
 class App extends React.Component {
   constructor(){
@@ -44,7 +45,8 @@ class App extends React.Component {
     this.setState({userMessage: ''})
   }
   userInput(e){
-    if (e.which == 13) {
+    let userName = e.target.value;
+    if (userName && e.which == 13) {
       this.setState({displaUserLogin: false})
     }
   }
@@ -54,31 +56,22 @@ class App extends React.Component {
       <div>
       {
         this.state.displaUserLogin ?
-          <span className="pages">
-          <div className="login page">
-            <div className="form">
-              <h3 className="title">What's your nickname?</h3>
-              <input className="usernameInput" type="text" maxLength="14" 
-              onKeyPress={this.userInput}/>
-            </div>
-          </div>
-        </span>   :
-
- 
-      <Container>
-        <Row>
-          <Col md="3"><Rooms/></Col>
-          <Col md="9">
-           <Form id="form" onSubmit={this.handleSubmit.bind(this)}> 
-            <Input size="lg" type="text" name="message" placeholder="with a placeholder" 
-              value={this.state.userMessage}
-              onChange={this.handleChange}/>
-           </Form>     
-            <MessagesList messages={this.state.messages}/>
-          </Col>
-        </Row> 
-      </Container>
-     }
+          <LoginPage userHandler={this.userInput}/>
+          :
+          <Container>
+            <Row>
+              <Col md="3"><Rooms/></Col>
+              <Col md="9">
+              <Form id="form" onSubmit={this.handleSubmit.bind(this)}> 
+                <Input size="lg" type="text" name="message" placeholder="with a placeholder" 
+                  value={this.state.userMessage}
+                  onChange={this.handleChange}/>
+              </Form>     
+                <MessagesList messages={this.state.messages}/>
+              </Col>
+            </Row> 
+          </Container>
+      }
       </div>
     )
   }

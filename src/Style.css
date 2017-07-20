@@ -3,7 +3,7 @@
    padding: 3px; 
    position: fixed; 
    bottom: 0; 
-   width: 70%; 
+   width: 68%; 
 }
 
 
@@ -161,4 +161,14 @@
  padding-top: 20px;
  font-size: 18px;
  color: red;
+}
+
+
+.user {
+  padding: 25px;
+  margin: 15px;
+  border: 1 seashell;
+  font-size: 14px;
+  background-color: seashell;
+  border-radius: 5px;
 }
