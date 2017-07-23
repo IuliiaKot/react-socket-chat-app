@@ -1,25 +1,38 @@
-const express = require('express');
-const http = require('http');
-const bodyParser = require('body-parser');
-const socketIO = require('socket.io');
-const webpack = require('webpack');
-const webpackDevMiddleware = require('webpack-dev-middleware')
-const webpackConfig = require('./webpack.config.js');
 
-var port = process.env.PORT || 5000;
+import express from 'express';
+import http from 'http';
+import webpack from 'webpack';
+import socketIO from 'socket.io';
 
+import path from 'path';
+import config from '../webpack.config.dev';
+import open from 'open';
+
+
+const port = 8000;
 const app = express();
 const server = http.createServer(app) ;
 const io = socketIO(server);
+const compiler = webpack(config);
 
-app.use(express.static(__dirname + '/public'))
-app.use(webpackDevMiddleware(webpack(webpackConfig)))
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
 
+app.use(require('webpack-hot-middleware')(compiler));
 
+app.get('*', function(req, res) {
+  res.sendFile(path.join( __dirname, '../public/index.html'));
+});
+
+let users = []
 
 io.on('connection', (socket) => {
   console.log('new User connected')
+  socket.on('addUser', (user) => {
+    console.log(user)
+  })
 
   socket.emit('message', {
     from: 'Admin',

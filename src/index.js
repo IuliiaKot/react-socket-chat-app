@@ -4,10 +4,9 @@ import io from 'socket.io-client';
 import MessagesList from './components/MessagesList';
 import MessageForm from './components/MessageForm';
 import Rooms from './components/Rooms';
-import 'bootstrap/dist/css/bootstrap.css';
-import './Style.css';
-import { Container, Row, Col } from 'reactstrap';
-import { Button, Input, FormText , Form} from 'reactstrap';
+import './styles/Style.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 import LoginPage from './components/LoginPage';
 
 class App extends React.Component {
@@ -48,6 +47,7 @@ class App extends React.Component {
     let userName = e.target.value;
     if (userName && e.which == 13) {
       this.setState({displaUserLogin: false})
+      this.socket.emit('addUser', {userName: userName})
     }
   }
 
@@ -58,19 +58,30 @@ class App extends React.Component {
         this.state.displaUserLogin ?
           <LoginPage userHandler={this.userInput}/>
           :
-          <Container>
-            <Row>
-              <Col md="3"><Rooms/></Col>
-              <Col md="9">
-              <Form id="form" onSubmit={this.handleSubmit.bind(this)}> 
-                <Input size="lg" type="text" name="message" placeholder="with a placeholder" 
+          <div className="container">
+            <div>
+              <div className="col-md-3"><Rooms/></div>
+              <div className="col-md-9">
+              {/* <form id="form" onSubmit={this.handleSubmit.bind(this)}> 
+                <inout size="lg" type="text" name="message" placeholder="with a placeholder" 
                   value={this.state.userMessage}
                   onChange={this.handleChange}/>
-              </Form>     
+              </form>   */}
+
+
+              <form id="form"c lassName="form-inline" onSubmit={this.handleSubmit.bind(this)}>
+                <div className="form-group mx-sm-9">
+                  <label for="inputPassword2" className="sr-only">Password</label>
+                  <input type="text" className="form-control" id="inputPassword2" placeholder="Message"
+                  value={this.state.userMessage}
+                  onChange={this.handleChange}/>
+                </div>
+                <button type="submit" className="btn btn-primary">Confirm identity</button>
+              </form>  
                 <MessagesList messages={this.state.messages}/>
-              </Col>
-            </Row> 
-          </Container>
+              </div>
+            </div> 
+          </div>
       }
       </div>
     )
