@@ -26,42 +26,42 @@ app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, '../public/index.html'));
 });
 
-let users = []
+let users = [];
 
 io.on('connection', (socket) => {
-  console.log('new User connected')
+  console.log('new User connected');
   socket.on('addUser', (user) => {
-    console.log(user)
-  })
+    console.log(user);
+  });
 
   socket.emit('message', {
     from: 'Admin',
     text: "Welcome to chat",
     time: new Date().getTime()
-  })
+  });
 
   socket.broadcast.emit('message',{
     from: "Admin",
     text: "New user was joined",
     time: new Date().getTime()
-  })
+  });
 
   socket.on('createMessage', (message) => {
-    console.log(message)
+    console.log(message);
     io.emit('message', {
       from: message.from,
       text: message.text,
       time: new Date().getTime()
-    })
+    });
     // socket.broadcast.emit('message', {
     //    from: message.from,
     //    text: message.text,
     //    created_at: new Date().getTime()
     // })
-  })
-})
+  });
+});
 
 io.on('disconnect', ()=>{
   console.log('user was disconnected');
-})
-server.listen(port)
+});
+server.listen(port);

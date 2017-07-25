@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 import MessagesList from './components/MessagesList';
-import MessageForm from './components/MessageForm';
+// import MessageForm from './components/MessageForm';
 import Rooms from './components/Rooms';
-import './styles/Style.css';
+
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './styles/Style.css';
 
 import LoginPage from './components/LoginPage';
 
@@ -18,6 +19,7 @@ class App extends React.Component {
       displaUserLogin: true
     }
     // this.socket = io(`http://localhost:3000`)
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.userInput = this.userInput.bind(this);
   }
@@ -58,8 +60,8 @@ class App extends React.Component {
         this.state.displaUserLogin ?
           <LoginPage userHandler={this.userInput}/>
           :
-          <div className="container">
-            <div>
+          <div className="">
+            <div className='row'>
               <div className="col-md-3"><Rooms/></div>
               <div className="col-md-9">
               {/* <form id="form" onSubmit={this.handleSubmit.bind(this)}> 
@@ -69,9 +71,9 @@ class App extends React.Component {
               </form>   */}
 
 
-              <form id="form"c lassName="form-inline" onSubmit={this.handleSubmit.bind(this)}>
+              <form id="form" className="form-inline" onSubmit={this.handleSubmit}>
                 <div className="form-group mx-sm-9">
-                  <label for="inputPassword2" className="sr-only">Password</label>
+                  <label htmlFor="inputPassword2" className="sr-only">Password</label>
                   <input type="text" className="form-control" id="inputPassword2" placeholder="Message"
                   value={this.state.userMessage}
                   onChange={this.handleChange}/>
