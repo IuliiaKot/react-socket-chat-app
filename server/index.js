@@ -27,6 +27,7 @@ app.get('*', function(req, res) {
 });
 
 let users = [];
+let rooms = ['general', 'nyc', 'sf', 'node'];
 
 io.on('connection', (socket) => {
   console.log('new User connected');
@@ -34,17 +35,28 @@ io.on('connection', (socket) => {
     console.log(user);
   });
 
-  socket.emit('message', {
-    from: 'Admin',
-    text: "Welcome to chat",
-    time: new Date().getTime()
-  });
 
-  socket.broadcast.emit('message',{
-    from: "Admin",
-    text: "New user was joined",
-    time: new Date().getTime()
-  });
+  socket.on('join', (params, callback) => {
+    console.log('user name is', params)
+    if (params === undefined) {
+      callback('error')
+    }
+    socket.join('general');
+
+    socket.emit('message', {
+      from: 'Admin',
+      text: "Welcome to chat",
+      time: new Date().getTime()
+    });
+
+    socket.broadcast.to('general').emit('message',{
+      from: "Admin",
+      text: `${params.userName} has joined general room`,
+      time: new Date().getTime()
+    });
+
+    callback();
+  })
 
   socket.on('createMessage', (message) => {
     console.log(message);
@@ -53,15 +65,10 @@ io.on('connection', (socket) => {
       text: message.text,
       time: new Date().getTime()
     });
-    // socket.broadcast.emit('message', {
-    //    from: message.from,
-    //    text: message.text,
-    //    created_at: new Date().getTime()
-    // })
   });
-});
 
-io.on('disconnect', ()=>{
-  console.log('user was disconnected');
+  io.on('disconnect', ()=>{
+    console.log('user was disconnected');
+  });
 });
 server.listen(port);

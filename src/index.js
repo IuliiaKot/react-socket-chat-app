@@ -49,9 +49,16 @@ class App extends React.Component {
     let userName = e.target.value;
     if (userName && e.which == 13) {
       this.setState({displaUserLogin: false})
-      this.socket.emit('addUser', {userName: userName})
-    }
+      // this.socket.emit('addUser', {userName: userName})
+      this.socket.emit('join', {userName: userName}, (err) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('no error');
+        }
+    })
   }
+}
 
   render(){
     return(
@@ -64,8 +71,8 @@ class App extends React.Component {
             <div className='row'>
               <div className="col-md-3"><Rooms/></div>
               <div className="col-md-9">
-              {/* <form id="form" onSubmit={this.handleSubmit.bind(this)}> 
-                <inout size="lg" type="text" name="message" placeholder="with a placeholder" 
+              {/* <form id="form" onSubmit={this.handleSubmit.bind(this)}>
+                <inout size="lg" type="text" name="message" placeholder="with a placeholder"
                   value={this.state.userMessage}
                   onChange={this.handleChange}/>
               </form>   */}
@@ -79,10 +86,10 @@ class App extends React.Component {
                   onChange={this.handleChange}/>
                 </div>
                 <button type="submit" className="btn btn-primary">Confirm identity</button>
-              </form>  
+              </form>
                 <MessagesList messages={this.state.messages}/>
               </div>
-            </div> 
+            </div>
           </div>
       }
       </div>

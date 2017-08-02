@@ -4,14 +4,14 @@ import React from 'react';
 
 const Rooms = (props) => {
     return (
-       
+
     <div className="list-group rooms">
         <a href="#" className="list-group-item active">
             General
         </a>
         <a href="#" className="list-group-item">NYC</a>
         <a href="#" className="list-group-item">SF</a>
-        <a href="#" className="list-group-item">Seattle</a>
+        <a href="#" className="list-group-item">Node</a>
     </div>
     )
 }
