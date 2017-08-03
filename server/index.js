@@ -26,7 +26,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, '../public/index.html'));
 });
 
-let users = [];
+let usernames = [];
 let rooms = ['general', 'nyc', 'sf', 'node'];
 
 io.on('connection', (socket) => {
@@ -39,8 +39,15 @@ io.on('connection', (socket) => {
   socket.on('join', (params, callback) => {
     console.log('user name is', params)
     if (params === undefined) {
-      callback('error')
+      callback('error');
     }
+
+
+    socket.username = params.userName;
+    let user = {username: params.userName, room: 'general', id: socket.id}
+    usernames.push(user);
+
+
     socket.join('general');
 
     socket.emit('message', {
@@ -55,6 +62,8 @@ io.on('connection', (socket) => {
       time: new Date().getTime()
     });
 
+    io.to('general').emit('updateUserList', usernames)
+
     callback();
   })
 
@@ -67,8 +76,25 @@ io.on('connection', (socket) => {
     });
   });
 
-  io.on('disconnect', ()=>{
+  socket.on('disconnect', ()=> {
     console.log('user was disconnected');
+    removeUser(socket.username);
+    console.log(usernames)
+    io.to('general').emit('updateUserList', usernames);
+
   });
 });
+
+
+const getUser = (username) => {
+  return usernames.filter(userObj => {return userObj.username == username})[0]
+}
+
+const removeUser = (username) => {
+  console.log(username)
+  let user = getUser(username);
+  if (user) {
+    usernames = usernames.filter(userObj => userObj.username != user.username)
+  }
+}
 server.listen(port);

@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import MessagesList from './components/MessagesList';
 // import MessageForm from './components/MessageForm';
 import Rooms from './components/Rooms';
-
+import UsersList from './components/UsersList';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './styles/Style.css';
 
@@ -16,7 +16,8 @@ class App extends React.Component {
     this.state = {
       messages: [],
       userMessage: '',
-      displaUserLogin: true
+      displaUserLogin: true,
+      users: []
     }
     // this.socket = io(`http://localhost:3000`)
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,14 +26,20 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-      this.socket = io();
+      // socket = io();
 
-      this.socket.on('message', message => {
-        console.log(message)
+      socket.on('message', message => {
+        console.log(message);
         this.setState({
           messages: [...this.state.messages, message]
         })
       })
+
+      socket.on('updateUserList', (usernames) => {
+        console.log(usernames);
+        this.setState({users: usernames});
+      })
+
   }
 
   handleChange(e){
@@ -42,15 +49,14 @@ class App extends React.Component {
   handleSubmit(e){
     e.preventDefault();
     let message ={from: "Julia", text: this.state.userMessage}
-    this.socket.emit('createMessage', message)
+    socket.emit('createMessage', message)
     this.setState({userMessage: ''})
   }
   userInput(e){
     let userName = e.target.value;
     if (userName && e.which == 13) {
       this.setState({displaUserLogin: false})
-      // this.socket.emit('addUser', {userName: userName})
-      this.socket.emit('join', {userName: userName}, (err) => {
+        socket.emit('join', {userName: userName}, (err) => {
         if (err) {
           console.log(err);
         } else {
@@ -69,14 +75,8 @@ class App extends React.Component {
           :
           <div className="">
             <div className='row'>
-              <div className="col-md-3"><Rooms/></div>
+              <div className="col-md-3"><Rooms/><UsersList users={this.state.users}/></div>
               <div className="col-md-9">
-              {/* <form id="form" onSubmit={this.handleSubmit.bind(this)}>
-                <inout size="lg" type="text" name="message" placeholder="with a placeholder"
-                  value={this.state.userMessage}
-                  onChange={this.handleChange}/>
-              </form>   */}
-
 
               <form id="form" className="form-inline" onSubmit={this.handleSubmit}>
                 <div className="form-group mx-sm-9">
