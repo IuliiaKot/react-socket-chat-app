@@ -36,7 +36,7 @@ class App extends React.Component {
       })
 
       socket.on('updateUserList', (usernames) => {
-        console.log(usernames);
+        console.log('user after someone live', usernames);
         this.setState({users: usernames});
       })
 
@@ -67,8 +67,8 @@ class App extends React.Component {
 }
 
 changeRoom(room){
-  socket.emit('change room', room);
-  this.setState({users: []})
+  socket.emit('changeRoom', room);
+  // this.setState({users: []})
 }
 
   render(){

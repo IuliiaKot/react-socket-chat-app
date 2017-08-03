@@ -62,23 +62,31 @@ io.on('connection', (socket) => {
       text: `${params.userName} has joined general room`,
       time: curretTime
     });
-
-    io.to('general').emit('updateUserList', usernames)
+    io.to('general').emit('updateUserList', findUsersForRoom(socket.room))
 
     callback();
   })
 
-  socket.on('change room', (room) => {
-    console.log(room)
+  socket.on('changeRoom', (room) => {
+    removeUser(socket.username);
+    console.log(findUsersForRoom(socket.room));
+    let tmp = findUsersForRoom(socket.room);
+    io.to(socket.room).emit('updateUserList', tmp);
     socket.leave(socket.room);
+
+    let user = {username: socket.username, room: room, id: socket.id}
+    usernames.push(user);
+
     socket.join(room);
     socket.room = room;
+    io.to(socket.room).emit('updateUserList', findUsersForRoom(socket.room));
 
     socket.broadcast.to(socket.room).emit('message',{
       from: "Admin",
       text: `${socket.username} has joined ${room} room`,
       time: curretTime
     });
+
   })
 
   socket.on('createMessage', (message) => {
@@ -114,5 +122,9 @@ const removeUser = (username) => {
   if (user) {
     usernames = usernames.filter(userObj => userObj.username != user.username)
   }
+}
+
+const findUsersForRoom = (room) => {
+  return usernames.filter(userObj => userObj.room === room)
 }
 server.listen(port);
