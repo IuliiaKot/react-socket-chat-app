@@ -69,10 +69,20 @@ io.on('connection', (socket) => {
 
   socket.on('changeRoom', (room) => {
     removeUser(socket.username);
-    console.log(findUsersForRoom(socket.room));
-    let tmp = findUsersForRoom(socket.room);
-    io.to(socket.room).emit('updateUserList', tmp);
+    io.to(socket.room).emit('updateUserList', findUsersForRoom(socket.room));
     socket.leave(socket.room);
+
+    socket.emit('message', {
+      from: "Admin",
+      text: `you have connected to ${room}`,
+      time: curretTime
+    });
+    
+    socket.broadcast.to(socket.room).emit('message', {
+      from: "Admin",
+      text: `${socket.username} has left this room`,
+      time: curretTime
+    });
 
     let user = {username: socket.username, room: room, id: socket.id}
     usernames.push(user);
