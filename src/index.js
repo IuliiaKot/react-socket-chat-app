@@ -18,6 +18,7 @@ class App extends React.Component {
       userMessage: '',
       displaUserLogin: true,
       users: [],
+      rooms: ["general", "nyc", "sf", "seattle"],
       currentRoom: 'general'
     }
     // this.socket = io(`http://localhost:3000`)
@@ -68,7 +69,7 @@ class App extends React.Component {
 
 changeRoom(room){
   socket.emit('changeRoom', room);
-  // this.setState({users: []})
+  this.setState({currentRoom: room})
 }
 
   render(){
@@ -81,7 +82,9 @@ changeRoom(room){
           <div className="">
             <div className='row'>
               <div className="col-md-3">
-                <Rooms switchRoom={this.changeRoom}/>
+                <Rooms switchRoom={this.changeRoom} 
+                      rooms={this.state.rooms} 
+                      currentRoom={this.state.currentRoom}/>
                 <UsersList users={this.state.users}/></div>
               <div className="col-md-9">
 

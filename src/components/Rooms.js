@@ -10,12 +10,11 @@ const Rooms = (props) => {
     return (
 
     <div className="list-group rooms">
-        <a href="#" className="list-group-item active">
-            General
-        </a>
-        <a href="#" className="list-group-item" onClick={(e) => switchRoom(e, props)}>NYC</a>
-        <a href="#" className="list-group-item">SF</a>
-        <a href="#" className="list-group-item">Node</a>
+        {
+            props.rooms.map(roomStr => {
+                return <a href="#" className={ roomStr === props.currentRoom ? ' list-group-item active' : 'list-group-item'} onClick={(e) => switchRoom(e, props)}>{roomStr}</a>
+            })
+        }
     </div>
     )
 }
