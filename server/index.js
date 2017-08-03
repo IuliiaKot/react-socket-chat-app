@@ -3,10 +3,13 @@ import express from 'express';
 import http from 'http';
 import webpack from 'webpack';
 import socketIO from 'socket.io';
+import Users from './utils/users';
 
 import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
+
+let users = new Users();
 
 
 const port = 8000;
@@ -32,10 +35,6 @@ let rooms = ['general', 'nyc', 'sf', 'node'];
 io.on('connection', (socket) => {
   let curretTime = new Date().toLocaleString();
   console.log('new User connected');
-  socket.on('addUser', (user) => {
-    console.log(user);
-  });
-
 
   socket.on('join', (params, callback) => {
     console.log('user name is', params)
@@ -45,8 +44,7 @@ io.on('connection', (socket) => {
 
 
     socket.username = params.userName;
-    let user = {username: params.userName, room: 'general', id: socket.id}
-    usernames.push(user);
+    users.addUser(socket.id, params.userName, 'general');
 
     socket.room = 'general'
     socket.join('general');
@@ -62,14 +60,15 @@ io.on('connection', (socket) => {
       text: `${params.userName} has joined general room`,
       time: curretTime
     });
-    io.to('general').emit('updateUserList', findUsersForRoom(socket.room))
+
+    io.to('general').emit('updateUserList', users.findUsersForRoom(socket.room))
 
     callback();
   })
 
   socket.on('changeRoom', (room) => {
-    removeUser(socket.username);
-    io.to(socket.room).emit('updateUserList', findUsersForRoom(socket.room));
+    users.removeUser(socket.username);
+    io.to(socket.room).emit('updateUserList', users.findUsersForRoom(socket.room));
     socket.leave(socket.room);
 
     socket.emit('message', {
@@ -77,19 +76,18 @@ io.on('connection', (socket) => {
       text: `you have connected to ${room}`,
       time: curretTime
     });
-    
+
     socket.broadcast.to(socket.room).emit('message', {
       from: "Admin",
       text: `${socket.username} has left this room`,
       time: curretTime
     });
 
-    let user = {username: socket.username, room: room, id: socket.id}
-    usernames.push(user);
+    users.addUser(socket.id, socket.username, room);
 
     socket.join(room);
     socket.room = room;
-    io.to(socket.room).emit('updateUserList', findUsersForRoom(socket.room));
+    io.to(socket.room).emit('updateUserList', users.findUsersForRoom(socket.room));
 
     socket.broadcast.to(socket.room).emit('message',{
       from: "Admin",
@@ -110,8 +108,8 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', ()=> {
     console.log('user was disconnected');
-    removeUser(socket.username);
-    io.to('general').emit('updateUserList', usernames);
+    users.removeUser(socket.username);
+    io.to('general').emit('updateUserList', users.users);
     socket.broadcast.to('general').emit('message',{
       from: "Admin",
       text: `${socket.username}  has disconnected`,
@@ -122,19 +120,4 @@ io.on('connection', (socket) => {
 });
 
 
-const getUser = (username) => {
-  return usernames.filter(userObj => {return userObj.username == username})[0]
-}
-
-const removeUser = (username) => {
-  console.log(username)
-  let user = getUser(username);
-  if (user) {
-    usernames = usernames.filter(userObj => userObj.username != user.username)
-  }
-}
-
-const findUsersForRoom = (room) => {
-  return usernames.filter(userObj => userObj.room === room)
-}
 server.listen(port);
