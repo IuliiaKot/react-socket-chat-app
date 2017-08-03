@@ -30,6 +30,7 @@ let usernames = [];
 let rooms = ['general', 'nyc', 'sf', 'node'];
 
 io.on('connection', (socket) => {
+  let curretTime = new Date().toLocaleString();
   console.log('new User connected');
   socket.on('addUser', (user) => {
     console.log(user);
@@ -47,19 +48,19 @@ io.on('connection', (socket) => {
     let user = {username: params.userName, room: 'general', id: socket.id}
     usernames.push(user);
 
-
+    socket.room = 'general'
     socket.join('general');
 
     socket.emit('message', {
       from: 'Admin',
       text: "Welcome to chat",
-      time: new Date().getTime()
+      time: curretTime
     });
 
     socket.broadcast.to('general').emit('message',{
       from: "Admin",
       text: `${params.userName} has joined general room`,
-      time: new Date().getTime()
+      time: curretTime
     });
 
     io.to('general').emit('updateUserList', usernames)
@@ -67,20 +68,37 @@ io.on('connection', (socket) => {
     callback();
   })
 
+  socket.on('change room', (room) => {
+    console.log(room)
+    socket.leave(socket.room);
+    socket.join(room);
+    socket.room = room;
+
+    socket.broadcast.to(socket.room).emit('message',{
+      from: "Admin",
+      text: `${socket.username} has joined ${room} room`,
+      time: curretTime
+    });
+  })
+
   socket.on('createMessage', (message) => {
     console.log(message);
     io.emit('message', {
       from: message.from,
       text: message.text,
-      time: new Date().getTime()
+      time: curretTime
     });
   });
 
   socket.on('disconnect', ()=> {
     console.log('user was disconnected');
     removeUser(socket.username);
-    console.log(usernames)
     io.to('general').emit('updateUserList', usernames);
+    socket.broadcast.to('general').emit('message',{
+      from: "Admin",
+      text: `${socket.username}  has disconnected`,
+      time: curretTime
+    })
 
   });
 });

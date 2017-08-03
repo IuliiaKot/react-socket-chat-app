@@ -1,6 +1,10 @@
 import React from 'react';
 // import { ListGroup, ListGroupItem } from 'reactstrap';
 
+const switchRoom = (e, props) => {
+  e.preventDefault()
+  props.switchRoom(e.target.text);
+}
 
 const Rooms = (props) => {
     return (
@@ -9,7 +13,7 @@ const Rooms = (props) => {
         <a href="#" className="list-group-item active">
             General
         </a>
-        <a href="#" className="list-group-item">NYC</a>
+        <a href="#" className="list-group-item" onClick={(e) => switchRoom(e, props)}>NYC</a>
         <a href="#" className="list-group-item">SF</a>
         <a href="#" className="list-group-item">Node</a>
     </div>

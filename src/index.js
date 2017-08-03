@@ -17,17 +17,17 @@ class App extends React.Component {
       messages: [],
       userMessage: '',
       displaUserLogin: true,
-      users: []
+      users: [],
+      currentRoom: 'general'
     }
     // this.socket = io(`http://localhost:3000`)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.userInput = this.userInput.bind(this);
+    this.changeRoom = this.changeRoom.bind(this);
   }
 
   componentDidMount(){
-      // socket = io();
-
       socket.on('message', message => {
         console.log(message);
         this.setState({
@@ -66,6 +66,11 @@ class App extends React.Component {
   }
 }
 
+changeRoom(room){
+  socket.emit('change room', room);
+  this.setState({users: []})
+}
+
   render(){
     return(
       <div>
@@ -75,7 +80,9 @@ class App extends React.Component {
           :
           <div className="">
             <div className='row'>
-              <div className="col-md-3"><Rooms/><UsersList users={this.state.users}/></div>
+              <div className="col-md-3">
+                <Rooms switchRoom={this.changeRoom}/>
+                <UsersList users={this.state.users}/></div>
               <div className="col-md-9">
 
               <form id="form" className="form-inline" onSubmit={this.handleSubmit}>
