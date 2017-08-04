@@ -180,6 +180,10 @@
  color: red;
 }
 
+.rooms {
+  margin-left: 20px;
+  margin-top: 20px;
+}
 
 .user {
   padding: 25px;
@@ -188,10 +192,24 @@
   font-size: 14px;
   background-color: seashell;
   border-radius: 5px;
+  height: 20%;
 }
 
 
-.rooms {
-  margin-left: 20px;
-  margin-top: 20px;
+/* message */
+.user .left {
+  float: left;
+  width: 30%;
+
+}
+
+.user .right {
+  float: right;
+  width: 70%;
+  text-align: right;
+}
+
+.user .time{
+  float: left;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }

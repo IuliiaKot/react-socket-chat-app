@@ -1,12 +1,24 @@
 import React, {Component} from 'react';
 
-class MessageForm extends Component {
-    render(){
-        return (
-            <div>
-                <input type="text" onKeyPress={this.handleSubmit.bind(this)}/>
-                <button>Submit</button>
+const MessageForm = (props) => {
+
+    return (
+        <form id="input-form" onSubmit={(e) => {props.submitForm(e)}}>
+            <div className="row">
+                <div className="col-md-11">
+                <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Search for..."
+                        value={props.userMessage}
+                        onChange={(e) => {props.handleChange(e)}}/>
+                    <span className="input-group-btn">
+                    <button className="btn btn-primary" type="submit">Send</button>
+                    </span>
+                </div>
+                </div>
             </div>
-        )
-    }
+        </form>
+    )
+
 }
+
+export default MessageForm;

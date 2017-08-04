@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import io from 'socket.io-client';
 import MessagesList from './components/MessagesList';
-// import MessageForm from './components/MessageForm';
+import MessageForm from './components/MessageForm';
 import Rooms from './components/Rooms';
 import UsersList from './components/UsersList';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
@@ -48,6 +48,7 @@ class App extends React.Component {
   }
 
   handleSubmit(e){
+    debugger
     e.preventDefault();
     let message ={from: "Julia", text: this.state.userMessage}
     socket.emit('createMessage', message)
@@ -85,33 +86,19 @@ changeRoom(room){
                 <Rooms switchRoom={this.changeRoom} 
                       rooms={this.state.rooms} 
                       currentRoom={this.state.currentRoom}/>
-                <UsersList users={this.state.users}/></div>
-              <div className="col-md-9" >
-                <form id="input-form" onSubmit={this.handleSubmit}>
-                  <div className="row">
-                    <div className="col-md-11">
-                      <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Search for..."
-                            value={this.state.userMessage}
-                            onChange={this.handleChange}/>
-                        <span className="input-group-btn">
-                          <button className="btn btn-primary" type="submit">Send</button>
-                        </span>
-                      </div>
+                <UsersList users={this.state.users}/>
+              </div>
+              <div className="col-md-9">
+                <div className="row">
+                    <div className="col-md-12">
+                      <MessageForm submitForm={this.handleSubmit}
+                        userMessage={this.state.userMessage}
+                        handleChange={this.handleChange}/>
                     </div>
-                  </div>
-                </form>
-
-                {/* <form id="" onSubmit={this.handleSubmit}>
-                  <div className="form-group">
-                    <div className="form-control input-lg"><label htmlFor="inputPassword2" className="sr-only">Password</label>
-                    <input type="text" className="form-control" id="inputPassword2" placeholder="Message"
-                    value={this.state.userMessage}
-                    onChange={this.handleChange}/></div>
-                  </div>
-                  <button type="submit" className="btn btn-primary">Confirm identity</button>
-                </form> */}
-                <MessagesList messages={this.state.messages}/>
+                    <div className="col-md-12">                
+                      <MessagesList messages={this.state.messages}/>
+                    </div>
+                </div>
               </div>
             </div>
           </div>
