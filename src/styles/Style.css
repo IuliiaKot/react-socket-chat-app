@@ -23,7 +23,7 @@
 .chat {
   /* padding: 30px 30px 20px; */
   margin-bottom:70px;
-  /* border-bottom: 2px solid white;  */
+   border-bottom: 2px solid white;  
 }
 .chat .chat-history .message-data {
   margin-bottom: 15px;
