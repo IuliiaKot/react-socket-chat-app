@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const Message = (props) => {
-  let classUser = props.message.from === 'Admin' ? 'admin' : 'user'
+  let classUser = props.message.from === 'Admin' ? 'admin clearfix' : 'user clearfix'
   let message = classUser === 'admin' ? 
     <li className={classUser}>
        {props.message.text}
@@ -10,11 +10,13 @@ const Message = (props) => {
     </li> :
 
       <li className={classUser}>
-        <aside className="left username">
+        <div className="message">
+          <aside className="left username">
           User
-        </aside>
-        <aside className="right user-message">{props.message.text}</aside>
-        <span className="time">{props.message.time}</span>
+          </aside>
+          <aside className="right user-message">{props.message.text}</aside>
+          <span className="time">{props.message.time}</span>
+        </div>
       </li>
   return(
     <span>{message}</span>
