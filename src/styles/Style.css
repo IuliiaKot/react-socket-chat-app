@@ -1,17 +1,26 @@
 #form {
   /* background: #F5F5F5; */
    /* padding: 3px;  */
-   position: fixed; 
-   bottom: 0; 
-   /* width: 68%;  */
-    margin-left:60px; 
+     /* position: fixed;   
+    bottom: 0;  
+    width: 68%;   */
+    /* margin-left:60px;  */
    /* padding-left: 20xp; */
 }
 
 #form input {
-  width: 100%;
+  /* width: 100%; */
 }
 
+#input-form{
+  position: fixed;
+  bottom: 0;
+  float: right;
+}
+
+#input-form input, button {
+    height: 50px; 
+}
 
 .chat .chat-history {
   padding: 30px 30px 20px;

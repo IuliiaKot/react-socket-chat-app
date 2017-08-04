@@ -86,17 +86,31 @@ changeRoom(room){
                       rooms={this.state.rooms} 
                       currentRoom={this.state.currentRoom}/>
                 <UsersList users={this.state.users}/></div>
-              <div className="col-md-9">
+              <div className="col-md-9" >
+                <form id="input-form" onSubmit={this.handleSubmit}>
+                  <div className="row">
+                    <div className="col-md-11">
+                      <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Search for..."
+                            value={this.state.userMessage}
+                            onChange={this.handleChange}/>
+                        <span className="input-group-btn">
+                          <button className="btn btn-primary" type="submit">Send</button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </form>
 
-              <form id="form" className="form-inline" onSubmit={this.handleSubmit}>
-                <div className="form-group mx-sm-9">
-                  <label htmlFor="inputPassword2" className="sr-only">Password</label>
-                  <input type="text" className="form-control" id="inputPassword2" placeholder="Message"
-                  value={this.state.userMessage}
-                  onChange={this.handleChange}/>
-                </div>
-                <button type="submit" className="btn btn-primary">Confirm identity</button>
-              </form>
+                {/* <form id="" onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                    <div className="form-control input-lg"><label htmlFor="inputPassword2" className="sr-only">Password</label>
+                    <input type="text" className="form-control" id="inputPassword2" placeholder="Message"
+                    value={this.state.userMessage}
+                    onChange={this.handleChange}/></div>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Confirm identity</button>
+                </form> */}
                 <MessagesList messages={this.state.messages}/>
               </div>
             </div>

@@ -6,7 +6,8 @@ const Message = (props) => {
   return(
     <li className={classUser}>
       {props.message.text}
-      <span>{props.message.time}</span></li>
+      <p>{props.message.time}</p>
+    </li>
   )
 }
 
