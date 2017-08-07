@@ -20,7 +20,7 @@
 let mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 
-let uristring = process.env.MONGODB_URI || "mongodb://localhost/testchat";
+let uristring = process.env.MONGODB_URI || "mongodb://localhost/chat";
 mongoose.connect(uristring);
 
 let messageSchema = mongoose.Schema({

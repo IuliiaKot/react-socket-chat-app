@@ -31,9 +31,13 @@ class App extends React.Component {
 
   componentDidMount(){
       socket.on('message', message => {
-        console.log(message);
         this.setState({
           messages: [...this.state.messages, message]
+        });
+      })
+      socket.on('load', messages => {
+        this.setState({
+          messages: messages
         });
       })
 

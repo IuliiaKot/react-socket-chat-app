@@ -6,12 +6,12 @@ export const saveMessage = (room, message, username, time) => {
     room: room,
     message: message,
     author: username,
-    data: time
+    createdAt: time
   }, (err, rs) => {
     console.log(err);
   });
 }
 
-export const loadMessages = (curretRoom, channel) =>{
-  return messageModel.message.find({room: curretRoom}).sort({_id: -1})
-}
+// export const loadMessages = (curretRoom, channel) =>{
+//   return messageModel.message.find({room: curretRoom}).sort({_id: -1})
+// }

@@ -37,8 +37,10 @@ let rooms = ['general', 'nyc', 'sf', 'node'];
 const loadMessages = (currentRoom, channel) => {
   messageModel.message.find({room: currentRoom}).limit(10).sort({_id: -1}).exec(function (err, results) {
         results.reverse();
+        let tmp = results.map(message => {return  {from: message.author, text: message.message, time: message.createdAt}})
         results.forEach(function (message) {
-            channel.emit('message', {from: message.author, text: message.message, time: message.data});
+            console.log('one message', message)
+            channel.emit('message', {from: message.author, text: message.message, time: message.createdAt});
         });
     });
 }
@@ -48,7 +50,6 @@ io.on('connection', (socket) => {
   console.log('new User connected');
 
   socket.on('join', (params, callback) => {
-    console.log('user name is', params)
     if (params === undefined) {
       callback('error');
     }
@@ -73,7 +74,7 @@ io.on('connection', (socket) => {
     });
 
     io.to('general').emit('updateUserList', users.findUsersForRoom(socket.room))
-    loadMessages(socket.room, socket.broadcast.to(socket.room));
+    loadMessages(socket.room, socket);
     callback();
   })
 
@@ -111,13 +112,12 @@ io.on('connection', (socket) => {
 
 
   socket.on('createMessage', (message) => {
-    console.log(curretTime)
-    saveMessage(socket.room, message.text, message.from, curretTime);
     io.sockets.in(socket.room).emit('message', {
       from: message.from,
       text: message.text,
       time: curretTime
     });
+    saveMessage(socket.room, message.text, message.from, curretTime);
   });
 
 
