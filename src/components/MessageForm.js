@@ -8,7 +8,7 @@ const MessageForm = (props) => {
             <div className="row">
                 <div className="col-md-11">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search for..."
+                    <input type="text" className="form-control" placeholder="Type message here"
                         value={props.userMessage}
                         onChange={(e) => {props.handleChange(e)}}
                         ref={input => input && input.focus()}/>

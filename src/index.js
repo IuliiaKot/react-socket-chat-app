@@ -30,7 +30,6 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-    debugger
       socket.on('message', message => {
         console.log(message);
         this.setState({

@@ -217,19 +217,17 @@
   /* font-family: cu */
 }  
 
+.admin {
+  margin-bottom: 11px;
+}
+
 @media (min-width: 768px) {
   .left-room-user {
-
-  /* float: left; */
-  /* width: 20%; */
-  /* height: 100%; */
     overflow:scroll-y;  
-      position: fixed;   
-  /*border-right:1px solid black;*/
+    position: fixed;   
 
   }
   .right-chat {
-  /* overflow:scroll-y;  */
     float: right; 
   }
 }

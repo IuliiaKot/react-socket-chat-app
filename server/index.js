@@ -4,7 +4,8 @@ import http from 'http';
 import webpack from 'webpack';
 import socketIO from 'socket.io';
 import Users from './utils/users';
-
+let  messageModel = require('./model/message');
+import {saveMessage} from './utils/messages';
 import path from 'path';
 import config from '../webpack.config.dev';
 import open from 'open';
@@ -31,6 +32,16 @@ app.get('*', function(req, res) {
 
 let usernames = [];
 let rooms = ['general', 'nyc', 'sf', 'node'];
+
+
+const loadMessages = (currentRoom, channel) => {
+  messageModel.message.find({room: currentRoom}).limit(10).sort({_id: -1}).exec(function (err, results) {
+        results.reverse();
+        results.forEach(function (message) {
+            channel.emit('message', {from: message.author, text: message.message, time: message.data});
+        });
+    });
+}
 
 io.on('connection', (socket) => {
   let curretTime = new Date().toLocaleString();
@@ -62,7 +73,7 @@ io.on('connection', (socket) => {
     });
 
     io.to('general').emit('updateUserList', users.findUsersForRoom(socket.room))
-
+    loadMessages(socket.room, socket.broadcast.to(socket.room));
     callback();
   })
 
@@ -89,6 +100,7 @@ io.on('connection', (socket) => {
     socket.room = room;
     io.to(socket.room).emit('updateUserList', users.findUsersForRoom(socket.room));
 
+    loadMessages(socket.room, socket.broadcast.to(socket.room));
     socket.broadcast.to(socket.room).emit('message',{
       from: "Admin",
       text: `${socket.username} has joined ${room} room`,
@@ -97,17 +109,10 @@ io.on('connection', (socket) => {
 
   })
 
-  // socket.on('createMessage', (message) => {
-  //   console.log(message);
-  //   io.emit('message', {
-  //     from: message.from,
-  //     text: message.text,
-  //     time: curretTime
-  //   });
-  // });
 
   socket.on('createMessage', (message) => {
-    console.log(message);
+    console.log(curretTime)
+    saveMessage(socket.room, message.text, message.from, curretTime);
     io.sockets.in(socket.room).emit('message', {
       from: message.from,
       text: message.text,
