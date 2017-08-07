@@ -17,21 +17,19 @@ class MessagesList extends Component {
     this.scrollToBottom();
   }
   render(){
-  return (
-      <div className="chat">
-        {/* <div className="chat-history"> */}
-          <ul className="chat-ul">
-            {
-              this.props.messages.map( (message,idx) => {
-                return <Message message={message} key={idx}/>;
-              })
-            }
-          </ul>
-        {/* </div> */}
-        <div style={{ float:"left", clear: "both" }}
-             ref={(el) => { this.messagesEnd = el; }} />
-      </div>
-  );
+    return (
+        <div className="chat">
+            <ul className="chat-ul">
+              {
+                this.props.messages.map( (message,idx) => {
+                  return <Message message={message} key={idx}/>;
+                })
+              }
+            </ul>
+          <div style={{ float:"left", clear: "both" }}
+              ref={(el) => { this.messagesEnd = el; }} />
+        </div>
+    );
   };
 };
 

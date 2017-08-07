@@ -16,6 +16,7 @@ class App extends React.Component {
     this.state = {
       messages: [],
       userMessage: '',
+      userName: '',
       displaUserLogin: true,
       users: [],
       rooms: ["general", "nyc", "sf", "seattle"],
@@ -29,6 +30,7 @@ class App extends React.Component {
   }
 
   componentDidMount(){
+    debugger
       socket.on('message', message => {
         console.log(message);
         this.setState({
@@ -49,14 +51,15 @@ class App extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    let message ={from: "Julia", text: this.state.userMessage}
+    let message ={from: this.state.userName, text: this.state.userMessage}
     socket.emit('createMessage', message)
     this.setState({userMessage: ''})
   }
   userInput(e){
     let userName = e.target.value;
     if (userName && e.which == 13) {
-      this.setState({displaUserLogin: false})
+      this.setState({displaUserLogin: false, userName: userName})
+
         socket.emit('join', {userName: userName}, (err) => {
         if (err) {
           console.log(err);
@@ -68,6 +71,7 @@ class App extends React.Component {
 }
 
 changeRoom(room){
+  this.setState({messages: []})
   socket.emit('changeRoom', room);
   this.setState({currentRoom: room})
 }
@@ -88,16 +92,14 @@ changeRoom(room){
                   <UsersList users={this.state.users}/>
               </div>
               <div className="col-md-9 col-sm-12 right-chat">
-                   {/* <div className="row">  */}
-                      <div className="col-md-12">                
-                        <MessagesList messages={this.state.messages}/>
-                      </div>
-                      <div className="col-md-12">
-                        <MessageForm submitForm={this.handleSubmit}
-                          userMessage={this.state.userMessage}
-                          handleChange={this.handleChange}/>
-                      </div>
-                   {/* </div>  */}
+                  <div className="col-md-12">                
+                    <MessagesList messages={this.state.messages}/>
+                  </div>
+                  <div className="col-md-12">
+                    <MessageForm submitForm={this.handleSubmit}
+                      userMessage={this.state.userMessage}
+                      handleChange={this.handleChange}/>
+                  </div>
               </div>
             </div>
           </div>

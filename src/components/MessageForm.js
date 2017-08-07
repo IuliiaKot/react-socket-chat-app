@@ -10,7 +10,8 @@ const MessageForm = (props) => {
                 <div className="input-group">
                     <input type="text" className="form-control" placeholder="Search for..."
                         value={props.userMessage}
-                        onChange={(e) => {props.handleChange(e)}}/>
+                        onChange={(e) => {props.handleChange(e)}}
+                        ref={input => input && input.focus()}/>
                     <span className="input-group-btn">
                     <button className="btn btn-primary" type="submit">Send</button>
                     </span>
