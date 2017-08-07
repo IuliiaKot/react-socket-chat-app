@@ -3,7 +3,8 @@ import React, {Component} from 'react';
 const MessageForm = (props) => {
 
     return (
-        <form id="input-form" onSubmit={(e) => {props.submitForm(e)}}>
+        <div className="form-message">
+            <form id="input-form" onSubmit={(e) => {props.submitForm(e)}}>
             <div className="row">
                 <div className="col-md-11">
                 <div className="input-group">
@@ -17,6 +18,7 @@ const MessageForm = (props) => {
                 </div>
             </div>
         </form>
+        </div>
     )
 
 }

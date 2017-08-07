@@ -81,17 +81,14 @@ changeRoom(room){
           :
           <div className="">
             <div className='row'>
-              <div className="col-md-3 ">
-                  <div className="left-room-user">
-                    <Rooms switchRoom={this.changeRoom} 
-                          rooms={this.state.rooms} 
-                          currentRoom={this.state.currentRoom}/>
-                    <UsersList users={this.state.users}/>
-                  </div>
+              <div className="col-md-3 left-room-user" >
+                  <Rooms switchRoom={this.changeRoom} 
+                        rooms={this.state.rooms} 
+                        currentRoom={this.state.currentRoom}/>
+                  <UsersList users={this.state.users}/>
               </div>
-              <div className="col-md-9">
-                <div className="right-chat">
-                  <div className="row">
+              <div className="col-md-9 col-sm-12 right-chat">
+                   {/* <div className="row">  */}
                       <div className="col-md-12">                
                         <MessagesList messages={this.state.messages}/>
                       </div>
@@ -100,8 +97,7 @@ changeRoom(room){
                           userMessage={this.state.userMessage}
                           handleChange={this.handleChange}/>
                       </div>
-                  </div>
-                </div>
+                   {/* </div>  */}
               </div>
             </div>
           </div>

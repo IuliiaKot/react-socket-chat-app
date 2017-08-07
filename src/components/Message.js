@@ -10,13 +10,15 @@ const Message = (props) => {
     </li> :
 
       <li className={classUser}>
-        <div className="message">
+        {/* <div className="message"> */}
           <aside className="left username">
-          User
+            <spam id="username">User</spam>
           </aside>
-          <aside className="right user-message">{props.message.text}</aside>
-          <span className="time">{props.message.time}</span>
-        </div>
+          <aside className="right user-message">
+            <p>{props.message.text}</p>
+            <span className="time">{props.message.time}</span>
+          </aside>
+        {/* </div> */}
       </li>
   return(
     <span>{message}</span>

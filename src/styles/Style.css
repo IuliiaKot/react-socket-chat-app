@@ -8,6 +8,9 @@
    /* padding-left: 20xp; */
 }
 
+.form-message{
+  margin-left: 60px;
+}
 
 #input-form{
   position: fixed;
@@ -22,7 +25,8 @@
 
 .chat {
   /* padding: 30px 30px 20px; */
-  margin-bottom:70px;
+  margin-left: 5px;
+    margin-bottom:70px;
    border-bottom: 2px solid white;  
 }
 .chat .chat-history .message-data {
@@ -178,47 +182,54 @@
 .user {
   padding: 25px;
   margin: 15px;
-  border: 1 seashell;
+  border: 1 #eaeff7;
   font-size: 14px;
-  background-color: seashell;
+  background-color: #eaeff7;
   border-radius: 5px;
-  height: 20%;
+  /* height: 20%; */
 }
 
 
 /* message */
-.user .left {
-  float: left;
-  width: 30%;
+.user {
+  position: relative;
+  /* height: auto; */
+  /* display: inline-block */
+}
 
+
+
+.user  .left{
+  float: left;
+  width: 10%;
 }
 
 .user .right {
   float: right;
-  width: 70%;
+  width: 90%;
   text-align: right;
+  border-left: solid 1px #223047;
 }
+ 
+ .user .time{
+  float: right;
+  color: grey;
+  /* font-family: cu */
+}  
 
-.user .time{
-  float: left;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
-}
+@media (min-width: 768px) {
+  .left-room-user {
 
-.user .message {
-  position: relative
-}
-
-
-.left-room-user {
-
-  float: left;
-  width: 20%;
-  height: 100%;
-  overflow:scroll-y;
-  position: fixed;
+  /* float: left; */
+  /* width: 20%; */
+  /* height: 100%; */
+    overflow:scroll-y;  
+      position: fixed;   
   /*border-right:1px solid black;*/
 
-}
-.right-chat {
-  /* float: right; */
+  }
+  .right-chat {
+  /* overflow:scroll-y;  */
+    float: right; 
+  }
 }

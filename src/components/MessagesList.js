@@ -19,7 +19,7 @@ class MessagesList extends Component {
   render(){
   return (
       <div className="chat">
-        <div class="chat-history panel-body body-panel">
+        {/* <div className="chat-history"> */}
           <ul className="chat-ul">
             {
               this.props.messages.map( (message,idx) => {
@@ -27,7 +27,7 @@ class MessagesList extends Component {
               })
             }
           </ul>
-        </div>
+        {/* </div> */}
         <div style={{ float:"left", clear: "both" }}
              ref={(el) => { this.messagesEnd = el; }} />
       </div>
